@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ogrenci_bilgi_sistemi/models/student.dart';
+import 'package:ogrenci_bilgi_sistemi/validation/text_validation.dart';
 
 class StudentUpdate extends StatefulWidget {
   List<Student> students;
-  Student selectedStudent = Student.withId(0, "Hiç kimse", "", 0);
+  Student selectedStudent = Student.withoutInfo();
   int index;
   StudentUpdate(this.students, this.selectedStudent, this.index);
 
@@ -13,7 +14,7 @@ class StudentUpdate extends StatefulWidget {
   }
 }
 
-class _StudentUpdate extends State<StudentUpdate> {
+class _StudentUpdate extends State<StudentUpdate> with textValidationMixin {
   var formKey = GlobalKey<FormState>();
   Student changedStudent = Student("", "", 0);
   @override
@@ -45,6 +46,7 @@ class _StudentUpdate extends State<StudentUpdate> {
     return TextFormField(
       initialValue: widget.selectedStudent.firstName,
       decoration: InputDecoration(labelText: "Öğrenci adı:"),
+      validator: firstNameValidator,
       onSaved: (String value) {
         changedStudent.firstName = value;
       },
@@ -55,6 +57,7 @@ class _StudentUpdate extends State<StudentUpdate> {
     return TextFormField(
       initialValue: widget.selectedStudent.lastName,
       decoration: InputDecoration(labelText: "Öğrenci soyadı:"),
+      validator: lastNameValidator,
       onSaved: (String value) {
         changedStudent.lastName = value;
       },
@@ -65,6 +68,7 @@ class _StudentUpdate extends State<StudentUpdate> {
     return TextFormField(
       initialValue: widget.selectedStudent.grade.toString(),
       decoration: InputDecoration(labelText: "Öğrenci'nin aldığı not:"),
+      validator: gradeValidator,
       onSaved: (String value) {
         changedStudent.grade = int.parse(value);
       },
@@ -75,9 +79,11 @@ class _StudentUpdate extends State<StudentUpdate> {
     return RaisedButton(
       child: Text("Kaydet"),
       onPressed: () {
-        formKey.currentState.save();
-        widget.students[widget.index] = changedStudent;
-        Navigator.pop(context);
+        if (formKey.currentState.validate()) {
+          formKey.currentState.save();
+          widget.students[widget.index] = changedStudent;
+          Navigator.pop(context);
+        }
       },
     );
   }

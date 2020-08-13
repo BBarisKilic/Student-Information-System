@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ogrenci_bilgi_sistemi/models/student.dart';
+import 'package:ogrenci_bilgi_sistemi/validation/text_validation.dart';
 
 class StudentAdd extends StatefulWidget {
   List<Student> students;
@@ -10,9 +11,9 @@ class StudentAdd extends StatefulWidget {
   }
 }
 
-class _StudentAddState extends State<StudentAdd> {
+class _StudentAddState extends State<StudentAdd> with textValidationMixin {
   var formKey = GlobalKey<FormState>();
-  Student newStudent = Student("", "", 0);
+  Student newStudent = Student.withoutInfo();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,6 +43,7 @@ class _StudentAddState extends State<StudentAdd> {
     return TextFormField(
       decoration:
           InputDecoration(labelText: "Öğrenci adı:", hintText: "Meryem"),
+      validator: firstNameValidator,
       onSaved: (String value) {
         newStudent.firstName = value;
       },
@@ -51,6 +53,7 @@ class _StudentAddState extends State<StudentAdd> {
   Widget buildLastNameText() {
     return TextFormField(
       decoration: InputDecoration(labelText: "Öğrenci soyadı:", hintText: "D"),
+      validator: lastNameValidator,
       onSaved: (String value) {
         newStudent.lastName = value;
       },
@@ -61,6 +64,7 @@ class _StudentAddState extends State<StudentAdd> {
     return TextFormField(
       decoration:
           InputDecoration(labelText: "Öğrenci'nin aldığı not:", hintText: "60"),
+      validator: gradeValidator,
       onSaved: (String value) {
         newStudent.grade = int.parse(value);
       },
@@ -71,9 +75,11 @@ class _StudentAddState extends State<StudentAdd> {
     return RaisedButton(
       child: Text("Kaydet"),
       onPressed: () {
-        formKey.currentState.save();
-        widget.students.add(newStudent);
-        Navigator.pop(context);
+        if (formKey.currentState.validate()) {
+          formKey.currentState.save();
+          widget.students.add(newStudent);
+          Navigator.pop(context);
+        }
       },
     );
   }
