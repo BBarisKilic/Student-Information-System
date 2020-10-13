@@ -1,6 +1,6 @@
-# ogrenci_bilgi_sistemi
+# Student Information System
 
-A new Flutter project.
+An app for track student's grades.
 
 ## Getting Started
 
