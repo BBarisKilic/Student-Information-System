@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ogrenci_bilgi_sistemi/models/student.dart';
-import 'package:ogrenci_bilgi_sistemi/validation/text_validation.dart';
+import 'package:student_information_system/models/student.dart';
+import 'package:student_information_system/validation/text_validation.dart';
 
+// ignore: must_be_immutable
 class StudentUpdate extends StatefulWidget {
   List<Student> students;
   Student selectedStudent = Student.withoutInfo();
@@ -21,7 +22,7 @@ class _StudentUpdate extends State<StudentUpdate> with textValidationMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Öğrenci Bilgilerini Düzenle"),
+        title: Text("Edit Student Information"),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -45,7 +46,7 @@ class _StudentUpdate extends State<StudentUpdate> with textValidationMixin {
   Widget buildFirstNameText() {
     return TextFormField(
       initialValue: widget.selectedStudent.firstName,
-      decoration: InputDecoration(labelText: "Öğrenci adı:"),
+      decoration: InputDecoration(labelText: "Student Name:"),
       validator: firstNameValidator,
       onSaved: (String value) {
         changedStudent.firstName = value;
@@ -56,7 +57,7 @@ class _StudentUpdate extends State<StudentUpdate> with textValidationMixin {
   Widget buildLastNameText() {
     return TextFormField(
       initialValue: widget.selectedStudent.lastName,
-      decoration: InputDecoration(labelText: "Öğrenci soyadı:"),
+      decoration: InputDecoration(labelText: "Student Surname:"),
       validator: lastNameValidator,
       onSaved: (String value) {
         changedStudent.lastName = value;
@@ -67,7 +68,7 @@ class _StudentUpdate extends State<StudentUpdate> with textValidationMixin {
   Widget buildGradeText() {
     return TextFormField(
       initialValue: widget.selectedStudent.grade.toString(),
-      decoration: InputDecoration(labelText: "Öğrenci'nin aldığı not:"),
+      decoration: InputDecoration(labelText: "Student's Grade:"),
       validator: gradeValidator,
       onSaved: (String value) {
         changedStudent.grade = int.parse(value);

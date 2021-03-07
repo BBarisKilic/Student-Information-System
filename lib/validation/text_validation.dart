@@ -2,29 +2,31 @@ mixin textValidationMixin {
   String firstNameValidator(String text) {
     var nonValidCharacters = RegExp(r'[0-9_\-=@,\.;+*/$#£]');
     if (text.length < 2) {
-      return "İsim en az 2 karakter olmalıdır.";
+      return "The name must be at least 2 characters.";
     }
-
     if (text.contains(nonValidCharacters)) {
-      return "İsim özel karakter veya rakam içermemelidir.";
+      return "The name should not contain any special characters or numbers.";
     }
+    return null;
   }
 
   String lastNameValidator(String text) {
     var nonValidCharacters = RegExp(r'[0-9_\-=@,\.;+*/$#£]');
     if (text.length < 2) {
-      return "Soyisim en az 2 karakter olmalıdır.";
+      return "The surname must be at least 2 characters.";
     }
     if (text.contains(nonValidCharacters)) {
-      return "Soyisim özel karakter veya rakam içermemelidir.";
+      return "The surname should be a special character or not.";
     }
+    return null;
   }
 
   String gradeValidator(String text) {
     //var nonValidCharacters = RegExp(r'[a-zA-Z_\-=@,\.;+*/$#£]');
     var grade = int.parse(text);
     if (grade < 0 || grade > 100) {
-      return "Not 0 ile 100 arasında olmalıdır.";
+      return "The grade must be between 0 and 100.";
     }
+    return null;
   }
 }

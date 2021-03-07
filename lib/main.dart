@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:ogrenci_bilgi_sistemi/screens/student_add.dart';
-import 'package:ogrenci_bilgi_sistemi/screens/student_update.dart';
+import 'package:student_information_system/screens/student_add.dart';
+import 'package:student_information_system/screens/student_update.dart';
 import 'models/student.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(StudentInformationSystem());
 }
 
-class MyApp extends StatelessWidget {
+class StudentInformationSystem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Homepage(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -30,14 +31,14 @@ class _HomepageState extends State {
     Student.withId(3, "Ulaş", "K", 44),
   ];
 
-  Student selectedStudent = Student.withId(0, "Hiç kimse", "", 0);
+  Student selectedStudent = Student.withId(0, "Non", "", 0);
   Color updateColor = Colors.transparent;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Öğrenci Bilgi Sistemi"),
+        title: Text("Student Information System"),
       ),
       body: buildBody(),
     );
@@ -45,44 +46,50 @@ class _HomepageState extends State {
 
   Widget buildBody() {
     return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: <Widget>[
         Expanded(
-          child: ListView.builder(
-              itemCount: students.length,
-              itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                  title: Text(
-                    students[index].firstName + " " + students[index].lastName,
-                    style: TextStyle(backgroundColor: updateColor),
-                  ),
-                  subtitle: Text(
-                    "Öğrencinin aldığı not: " +
-                        students[index].grade.toString(),
-                    style: TextStyle(backgroundColor: updateColor),
-                  ),
-                  leading: CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        "https://png.pngtree.com/png-vector/20190118/ourlarge/pngtree-vector-male-student-icon-png-image_326762.jpg"),
-                  ),
-                  trailing: buildIconStatus(students[index].getStatus),
-                  onTap: () {
-                    setState(() {
-                      selectedStudent = students[index];
-                    });
-                    if (updateColor == Colors.amberAccent) {
-                      Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => StudentUpdate(
-                                      students, selectedStudent, index)))
-                          .then((value) => setState(() {}));
-                      updateColor = Colors.transparent;
-                    } else if (updateColor == Colors.redAccent) {
-                      showAlertDeleteStudent(context, index);
-                    }
-                  },
-                );
-              }),
+          child: ListView.separated(
+            itemCount: students.length,
+            itemBuilder: (BuildContext context, int index) {
+              return ListTile(
+                tileColor: updateColor,
+                title: Text(
+                  students[index].firstName + " " + students[index].lastName,
+                ),
+                subtitle: Text(
+                  "The grade the student received: " +
+                      students[index].grade.toString(),
+                ),
+                leading: CircleAvatar(
+                  backgroundImage: NetworkImage(
+                      "https://png.pngtree.com/png-vector/20190118/ourlarge/pngtree-vector-male-student-icon-png-image_326762.jpg"),
+                ),
+                trailing: buildIconStatus(students[index].getStatus),
+                onTap: () {
+                  setState(() {
+                    selectedStudent = students[index];
+                  });
+                  if (updateColor == Colors.amberAccent) {
+                    Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => StudentUpdate(
+                                    students, selectedStudent, index)))
+                        .then((value) => setState(() {}));
+                    updateColor = Colors.transparent;
+                  } else if (updateColor == Colors.redAccent) {
+                    showAlertDeleteStudent(context, index);
+                  }
+                },
+              );
+            },
+            separatorBuilder: (BuildContext context, int index) {
+              return SizedBox(
+                height: 4,
+              );
+            },
+          ),
         ),
         Text(
           bottomInfoText(),
@@ -90,10 +97,11 @@ class _HomepageState extends State {
         Row(
           children: <Widget>[
             manuelBottomBar(
-                1, "Yeni Öğrenci", 4, Colors.greenAccent, Icon(Icons.add)),
+                1, "New Student", 6, Colors.greenAccent, Icon(Icons.add)),
             manuelBottomBar(
-                2, "Düzenle", 3, Colors.amberAccent, Icon(Icons.update)),
-            manuelBottomBar(3, "Sil", 2, Colors.redAccent, Icon(Icons.delete)),
+                2, "Edit", 4, Colors.amberAccent, Icon(Icons.update)),
+            manuelBottomBar(
+                3, "Delete", 5, Colors.redAccent, Icon(Icons.delete)),
           ],
         )
       ],
@@ -160,21 +168,21 @@ class _HomepageState extends State {
 
   String bottomInfoText() {
     if (updateColor == Colors.amberAccent) {
-      return "Düzenlemek istediğiniz öğrenciyi seçiniz!";
+      return "Select the student you want to edit!";
     } else if (updateColor == Colors.redAccent) {
-      return "Silmek istediğiniz öğrenciyi seçiniz!";
+      return "Select the student you want to delete!";
     } else {
       if (selectedStudent.grade >= 50) {
-        return selectedStudent.firstName + ": " + "Geçti";
+        return selectedStudent.firstName + ": " + "Passed";
       } else {
-        return selectedStudent.firstName + ": " "Kaldı";
+        return selectedStudent.firstName + ": " "Failed";
       }
     }
   }
 
   void showAlertDeleteStudent(BuildContext context, int index) {
     Widget cancelButton = FlatButton(
-      child: Text("İptal"),
+      child: Text("Cancel"),
       onPressed: () {
         setState(() {
           updateColor = Colors.transparent;
@@ -184,7 +192,7 @@ class _HomepageState extends State {
     );
 
     Widget continueButton = FlatButton(
-      child: Text("Devam et"),
+      child: Text("Continue"),
       onPressed: () {
         setState(() {
           updateColor = Colors.transparent;
@@ -195,10 +203,10 @@ class _HomepageState extends State {
     );
 
     AlertDialog alert = AlertDialog(
-      title: Text("Dikkat!"),
-      content: Text("Devam etmeniz durumunda seçili öğrencinin '" +
+      title: Text("Caution!"),
+      content: Text("If you continue, the selected '" +
           students[index].firstName +
-          "' verileri tamamen silinecek!"),
+          "' student's data will be completely deleted!"),
       actions: [
         cancelButton,
         continueButton,

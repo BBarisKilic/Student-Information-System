@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:ogrenci_bilgi_sistemi/models/student.dart';
-import 'package:ogrenci_bilgi_sistemi/validation/text_validation.dart';
+import 'package:student_information_system/models/student.dart';
+import 'package:student_information_system/validation/text_validation.dart';
 
+// ignore: must_be_immutable
 class StudentAdd extends StatefulWidget {
   List<Student> students;
   StudentAdd(this.students);
@@ -18,7 +19,7 @@ class _StudentAddState extends State<StudentAdd> with textValidationMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Yeni Öğrenci"),
+        title: Text("New Student"),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -42,7 +43,7 @@ class _StudentAddState extends State<StudentAdd> with textValidationMixin {
   Widget buildFirstNameText() {
     return TextFormField(
       decoration:
-          InputDecoration(labelText: "Öğrenci adı:", hintText: "Meryem"),
+          InputDecoration(labelText: "Student Name:", hintText: "Meryem"),
       validator: firstNameValidator,
       onSaved: (String value) {
         newStudent.firstName = value;
@@ -52,7 +53,7 @@ class _StudentAddState extends State<StudentAdd> with textValidationMixin {
 
   Widget buildLastNameText() {
     return TextFormField(
-      decoration: InputDecoration(labelText: "Öğrenci soyadı:", hintText: "D"),
+      decoration: InputDecoration(labelText: "Student Surname:", hintText: "D"),
       validator: lastNameValidator,
       onSaved: (String value) {
         newStudent.lastName = value;
@@ -63,7 +64,7 @@ class _StudentAddState extends State<StudentAdd> with textValidationMixin {
   Widget buildGradeText() {
     return TextFormField(
       decoration:
-          InputDecoration(labelText: "Öğrenci'nin aldığı not:", hintText: "60"),
+          InputDecoration(labelText: "Student's grade:", hintText: "60"),
       validator: gradeValidator,
       onSaved: (String value) {
         newStudent.grade = int.parse(value);
@@ -72,8 +73,8 @@ class _StudentAddState extends State<StudentAdd> with textValidationMixin {
   }
 
   Widget buildReturnButton() {
-    return RaisedButton(
-      child: Text("Kaydet"),
+    return ElevatedButton(
+      child: Text("Save"),
       onPressed: () {
         if (formKey.currentState.validate()) {
           formKey.currentState.save();

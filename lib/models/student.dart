@@ -18,7 +18,7 @@ class Student {
     this.grade = grade;
   }
 
-  Student.withoutInfo() {}
+  Student.withoutInfo();
 
   bool get getStatus {
     if (this.grade >= 50) {
