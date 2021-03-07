@@ -77,8 +77,8 @@ class _StudentUpdate extends State<StudentUpdate> with textValidationMixin {
   }
 
   Widget buildReturnButton() {
-    return RaisedButton(
-      child: Text("Kaydet"),
+    return ElevatedButton(
+      child: Text("Save"),
       onPressed: () {
         if (formKey.currentState.validate()) {
           formKey.currentState.save();
