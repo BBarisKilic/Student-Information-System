@@ -46,7 +46,7 @@ class _HomepageState extends State {
 
   Widget buildBody() {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
         Expanded(
           child: ListView.separated(
@@ -103,7 +103,11 @@ class _HomepageState extends State {
             manuelBottomBar(
                 3, "Delete", 5, Colors.redAccent, Icon(Icons.delete)),
           ],
-        )
+        ),
+        Container(
+          height: 30,
+          color: Colors.black,
+        ),
       ],
     );
   }
@@ -121,8 +125,10 @@ class _HomepageState extends State {
     return Flexible(
       fit: FlexFit.loose,
       flex: flex,
-      child: RaisedButton(
-        color: color,
+      child: ElevatedButton(
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(color),
+        ),
         child: Row(
           children: <Widget>[
             icon,
@@ -181,7 +187,7 @@ class _HomepageState extends State {
   }
 
   void showAlertDeleteStudent(BuildContext context, int index) {
-    Widget cancelButton = FlatButton(
+    Widget cancelButton = TextButton(
       child: Text("Cancel"),
       onPressed: () {
         setState(() {
@@ -191,7 +197,7 @@ class _HomepageState extends State {
       },
     );
 
-    Widget continueButton = FlatButton(
+    Widget continueButton = TextButton(
       child: Text("Continue"),
       onPressed: () {
         setState(() {
