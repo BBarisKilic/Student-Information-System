@@ -104,10 +104,6 @@ class _HomepageState extends State {
                 3, "Delete", 5, Colors.redAccent, Icon(Icons.delete)),
           ],
         ),
-        Container(
-          height: 30,
-          color: Colors.black,
-        ),
       ],
     );
   }
