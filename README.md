@@ -15,3 +15,9 @@ An app for track student's grades.
 - navigation architecture.
 - Mixins in Dart Language.
 - the Working Logic of Reference Types on the Project
+
+Screenshots of the app:
+
+<p align="center"><img src="images/student_1.png" width="300">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<img src="images/student_2.png" width="300"></p>
+
+<p align="center"><img src="images/student_3.png" width="300">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<img src="images/student_4.png" width="300"></p>
