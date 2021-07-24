@@ -45,66 +45,68 @@ class _HomepageState extends State {
   }
 
   Widget buildBody() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: <Widget>[
-        Expanded(
-          child: ListView.separated(
-            itemCount: students.length,
-            itemBuilder: (BuildContext context, int index) {
-              return ListTile(
-                tileColor: updateColor,
-                title: Text(
-                  students[index].firstName + " " + students[index].lastName,
-                ),
-                subtitle: Text(
-                  "The grade the student received: " +
-                      students[index].grade.toString(),
-                ),
-                leading: CircleAvatar(
-                  backgroundImage: NetworkImage(
-                      "https://png.pngtree.com/png-vector/20190118/ourlarge/pngtree-vector-male-student-icon-png-image_326762.jpg"),
-                ),
-                trailing: buildIconStatus(students[index].getStatus),
-                onTap: () {
-                  setState(() {
-                    selectedStudent = students[index];
-                  });
-                  if (updateColor == Colors.amberAccent) {
-                    Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => StudentUpdate(
-                                    students, selectedStudent, index)))
-                        .then((value) => setState(() {}));
-                    updateColor = Colors.transparent;
-                  } else if (updateColor == Colors.redAccent) {
-                    showAlertDeleteStudent(context, index);
-                  }
-                },
-              );
-            },
-            separatorBuilder: (BuildContext context, int index) {
-              return SizedBox(
-                height: 4,
-              );
-            },
+    return SafeArea(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          Expanded(
+            child: ListView.separated(
+              itemCount: students.length,
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  tileColor: updateColor,
+                  title: Text(
+                    students[index].firstName + " " + students[index].lastName,
+                  ),
+                  subtitle: Text(
+                    "The grade the student received: " +
+                        students[index].grade.toString(),
+                  ),
+                  leading: CircleAvatar(
+                    backgroundImage: NetworkImage(
+                        "https://png.pngtree.com/png-vector/20190118/ourlarge/pngtree-vector-male-student-icon-png-image_326762.jpg"),
+                  ),
+                  trailing: buildIconStatus(students[index].getStatus),
+                  onTap: () {
+                    setState(() {
+                      selectedStudent = students[index];
+                    });
+                    if (updateColor == Colors.amberAccent) {
+                      Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => StudentUpdate(
+                                      students, selectedStudent, index)))
+                          .then((value) => setState(() {}));
+                      updateColor = Colors.transparent;
+                    } else if (updateColor == Colors.redAccent) {
+                      showAlertDeleteStudent(context, index);
+                    }
+                  },
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) {
+                return SizedBox(
+                  height: 4,
+                );
+              },
+            ),
           ),
-        ),
-        Text(
-          bottomInfoText(),
-        ),
-        Row(
-          children: <Widget>[
-            manuelBottomBar(
-                1, "New Student", 6, Colors.greenAccent, Icon(Icons.add)),
-            manuelBottomBar(
-                2, "Edit", 4, Colors.amberAccent, Icon(Icons.update)),
-            manuelBottomBar(
-                3, "Delete", 5, Colors.redAccent, Icon(Icons.delete)),
-          ],
-        ),
-      ],
+          Text(
+            bottomInfoText(),
+          ),
+          Row(
+            children: <Widget>[
+              manuelBottomBar(
+                  1, "New Student", 6, Colors.greenAccent, Icon(Icons.add)),
+              manuelBottomBar(
+                  2, "Edit", 4, Colors.amberAccent, Icon(Icons.update)),
+              manuelBottomBar(
+                  3, "Delete", 5, Colors.redAccent, Icon(Icons.delete)),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
